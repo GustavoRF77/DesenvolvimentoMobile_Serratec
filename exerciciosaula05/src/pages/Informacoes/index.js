@@ -1,11 +1,24 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text,TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
-export const Informacoes = () => {
+export const Informacoes = ({navigation}) => {
 
     return (
-        <Text>
-            Essa é a página Informações
-        </Text>
+        <View>
+            <TouchableOpacity
+                style={{
+                    width: 44,
+                    height: 44,
+                    margin: 20,
+                    top: 0
+                }}
+                onPress={() => navigation.openDrawer()}>
+                <Icon name='menu' size={20} color='black' />
+            </TouchableOpacity>
+            <Text>
+                Essa é a página Informações
+            </Text>
+        </View>
     )
 }
