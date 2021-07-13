@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { ScrollView } from 'react-native';
 import { View, Text, TouchableOpacity, TextInput, Switch, Modal, Alert } from 'react-native';
-import { adicionarLogins, listarLogins } from '../../data/produto/login_db';
+import { adicionarLogins, listarLogins } from '../../data/favoritos_db';
 import { styles } from './styles';
 import { CartContext } from '../../context/CartProvider';
+import { Categoria } from '../Categoria';
 
 export const Login = ({ navigation }) => {
     const [passwd, setPasswd] = React.useState(true)
@@ -85,7 +86,7 @@ export const Login = ({ navigation }) => {
                 "Correto",
                 "Login Correto",
                 [
-                    { text: "OK", onPress: () => navigation.navigate('Home') }
+                    { text: "OK", onPress: () => navigation.navigate('Categoria') }
                 ]
             );
 

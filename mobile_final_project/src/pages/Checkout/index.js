@@ -1,11 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
-import { CartContext } from '../../context/CartProvider'
+import { CartContext } from '../../context/CartProvider';
 import { View, Text, FlatList, TouchableOpacity, Image, SafeAreaView, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { styles } from "./styles";
 
-export function Cart({ navigation }) {
+export function Checkout({ navigation }) {
 
 
     const { cart, removeItem, clearCart, log, count } = useContext(CartContext)
@@ -43,12 +42,6 @@ export function Cart({ navigation }) {
                                     <Text style={styles.listItemText}>{item.quantidade}</Text>
                                 </View>
                                 <View>
-                                    <TouchableOpacity
-                                        style={styles.btnAddCart}
-                                        onPress={() => { removeItem(item.nome) }}
-                                        >
-                                        <Icon name="delete" type="ionicon" size={36} color='black' />
-                                    </TouchableOpacity>
                                 </View>
                             </View>
                         )
@@ -65,17 +58,12 @@ export function Cart({ navigation }) {
                         <Text style={{
                             textAlign: 'center'
                         }}>Total: R$ {total}</Text>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => clearCart()}>
-                            <Text>Limpar Carrinho</Text>
-                        </TouchableOpacity>
                     </Card>
                     <View style={ styles.buttonContainer }>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => { log ? navigation.navigate('Checkout') : navigation.navigate('Login') }}>
-                            <Text>Checkout</Text>
+                            onPress={() => { navigation.navigate('Home'), clearCart()}}>
+                            <Text>Finalizar Pedido</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

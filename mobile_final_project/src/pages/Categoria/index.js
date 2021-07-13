@@ -2,15 +2,19 @@ import React, { useEffect, useState, useContext } from 'react';
 import {
     SafeAreaView, View, Text,
     ActivityIndicator, TouchableOpacity,
-    FlatList, Modal, Button, Image
+    FlatList, Modal, Alert, Image
 } from 'react-native';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import { CartContext } from '../../context/CartProvider';
+import Icon2 from 'react-native-vector-icons/AntDesign';
+import { adicionarFavoritos, deleteFavorito, listarFavoritos } from '../../data/favoritos_db';
 
 
-export const Categoria = () => {
+
+
+export const Categoria = ({ navigation }) => {
 
 
     const [categorias, setCategorias] = useState([]);
@@ -18,9 +22,11 @@ export const Categoria = () => {
     const [modal, setModal] = useState(false);
     const [produtos, setProdutos] = useState([]);
     const [produto1, setProduto1] = useState([]);
-    const { cart, addItem, removeItem, clearCart, count } = useContext(CartContext)
+    const { cart, addItem, removeItem, clearCart, count, count4 } = useContext(CartContext)
     const [quantidadeTotal, setQuantidadeTotal] = useState(0)
     const [cartItems, setCartItems] = useState(0);
+    const [arrayteste, setArrayteste] = useState(listarFavoritos);
+
 
 
     useEffect(() => {
@@ -58,6 +64,55 @@ export const Categoria = () => {
         count()
         setCartItems(cartItems + 1)
         addItem(nome, descricao, preco, url)
+    }
+
+    function teste(nome, descricao, valorUnitario, url, id, item) {
+        var teste = 0;
+        console.log(arrayteste.length);
+        if (arrayteste.length == 0) {
+            console.log('aqui1');
+            adicionarFavoritos(nome, descricao, valorUnitario, id, url);
+            Alert.alert(
+                "Produto Adicionado",
+                "Produto adicionado aos favoritos",
+                [
+                    { text: "OK", onPress: () => { teste = 0, console.log(teste) } }
+                    ,
+                    { text: "Ir para Favoritos", onPress: () => { setModal(false), teste = 0, navigation.navigate('Favoritos') } }
+                ]
+            );
+            return
+        }
+        arrayteste.map(produto => {
+            if (produto.favorito_id == id) {
+                console.log('aqui2');
+                teste += 1;
+                deleteFavorito(id);
+                Alert.alert(
+                    "Produto Removido",
+                    "Produto removido dos favoritos",
+                    [
+                        { text: "OK", onPress: () => { teste = 0, console.log(teste) } }
+                        ,
+                        { text: "Ir para Favoritos", onPress: () => { setModal(false), teste = 0, navigation.navigate('Favoritos') } }
+                    ]
+                );
+            }
+        })
+        if (teste === 0) {
+            console.log('aqui3');
+            adicionarFavoritos(nome, descricao, valorUnitario, id, url);
+            Alert.alert(
+                "Produto Adicionado",
+                "Produto adicionado aos favoritos",
+                [
+                    { text: "OK", onPress: () => { teste = 0, console.log(teste) } }
+                    ,
+                    { text: "Ir para Favoritos", onPress: () => { setModal(false), teste = 0, navigation.navigate('Favoritos') } }
+                ]
+            );
+            return
+        }
     }
 
 
@@ -140,6 +195,12 @@ export const Categoria = () => {
                                                                 onPress={() => { countCart(item.nome, item.descricao, item.valorUnitario, item.url) }}
                                                             >
                                                                 <Icon name="add-circle-outline" type="ionicon" size={36} color='#ff531a' />
+                                                            </TouchableOpacity>
+                                                            <TouchableOpacity
+                                                                style={styles.btnAddCart}
+                                                                onPress={() => { teste(item.nome, item.descricao, item.valorUnitario.toString(), item.url, item.id, item), count4() }}
+                                                            >
+                                                                <Icon2 name="star" size={36} color='#ff531a' />
                                                             </TouchableOpacity>
                                                         </View>
                                                     </View>

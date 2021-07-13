@@ -6,9 +6,14 @@ export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [log, setLog] = useState(false);
   const [count2, setCount2] = useState(0);
+  const [count3, setCount3] = useState(0);
 
   function count() {
     setCount2(count2 + 1)
+  }
+
+  function count4() {
+    setCount3(count3 + 1)
   }
 
 
@@ -25,8 +30,6 @@ export function CartProvider({ children }) {
     } else {
       item.quantidade = 1
       setCart([...cart, item])
-
-
     }
 
   }
@@ -47,7 +50,7 @@ export function CartProvider({ children }) {
 
 
   return (
-    <CartContext.Provider value={{ cart, addItem, removeItem, clearCart, log, login, count, count2 }}>
+    <CartContext.Provider value={{ cart, addItem, removeItem, clearCart, log, login, count, count2, count3, count4 }}>
       {children}
     </CartContext.Provider>
   )
